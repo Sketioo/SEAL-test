@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         try {
             $user = User::where('username', $request->username)->first();
@@ -17,7 +18,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'User tidak ditemukan.',
-                    'data' => null,
+                    'data' => [],
                 ], 404);
             }
 
@@ -25,10 +26,14 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Kredensial tidak sah.',
-                    'data' => null,
+                    'data' => [],
                 ], 401);
             }
 
+            if (!method_exists($user, 'createToken')) {
+                throw new \Exception('Method createToken not found on user model.');
+            }
+    
             $token = $user->createToken('API Token')->plainTextToken;
 
             return response()->json([
@@ -42,8 +47,8 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Terjadi kesalahan yang tidak terduga.',
-                'data' => null,
+                'message' => 'Terjadi kesalahan yang tidak terduga',
+                'data' => [],
             ], 500);
         }
     }
