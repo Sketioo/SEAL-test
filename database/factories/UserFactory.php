@@ -17,13 +17,38 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $positions = ['magang', 'pegawai'];
+        $type = $this->faker->randomElement($positions);
         return [
+            'nip' => $type === 'magang' ? null : $this->faker->ean8(),
             'name' => fake()->name(),
+            'username' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
+            'type' => fake()->randomElement($positions),
+            'position' => fake()->jobTitle(),
+            'phone' => fake()->phoneNumber(),
+            'photo_profile' => 'profile.png',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function defaultUser(): Factory
+    {
+        return $this->state([
+            'nip' => null,
+            'name' => 'Martio Husein Samsu',
+            'username' => 'martio27',
+            'email' => 'martio@mail.com',
+            'position' => 'Backend Developer',
+            'type' => 'magang',
+            'phone' => '085736456789',
+            'photo_profile' => 'profile.png',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
     }
 
     /**
@@ -33,7 +58,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
