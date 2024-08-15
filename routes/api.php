@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tasks', TaskController::class);
     Route::apiResource('projects', ProjectController::class);
 
-    Route::post('/logout', [AuthController::class], 'logout')->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
