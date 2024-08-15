@@ -2,66 +2,118 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use Illuminate\Http\Request;
+use Exception;
+use App\Services\ProjectService;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
 class ProjectController extends Controller
 {
+    protected $projectService;
+
+    public function __construct(ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+        $this->middleware('auth:sanctum');
+    }
+
     public function index()
     {
-        $projects = Project::paginate(10);
+        try {
+            $projects = $this->projectService->getAllProjects();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data proyek ditemukan',
-            'data' => $projects->items(),
-            'pagination' => [
-                'current_page' => $projects->currentPage(),
-                'total_pages' => $projects->lastPage(),
-                'total_items' => $projects->total(),
-                'per_page' => $projects->perPage(),
-            ],
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data proyek ditemukan',
+                'data' => $projects->items(),
+                'total' => $projects->total(),
+                'pagination' => [
+                    'current_page' => $projects->currentPage(),
+                    'total_pages' => $projects->lastPage(),
+                    'total_items' => $projects->total(),
+                    'per_page' => $projects->perPage(),
+                ],
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], 500);
+        }
     }
 
     public function store(StoreProjectRequest $request)
     {
-        $project = Project::create($request->validated());
+        try {
+            $project = $this->projectService->createProject($request->validated());
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Proyek berhasil dibuat',
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Proyek berhasil dibuat',
+                'data' => $project,
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], 400);
+        }
     }
 
-    public function show(Project $project)
+    public function show($id)
     {
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data proyek ditemukan',
-            'data' => $project,
-        ]);
+        try {
+            $project = $this->projectService->getProjectById($id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data proyek ditemukan',
+                'data' => $project,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], 404);
+        }
     }
 
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateProjectRequest $request, $id)
     {
-        $project->update($request->validated());
+        try {
+            $this->projectService->updateProject($id, $request->validated());
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Proyek berhasil diperbarui',
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Proyek berhasil diperbarui',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], 400);
+        }
     }
 
-    public function destroy(Project $project)
+    public function destroy($id)
     {
-        $project->delete();
+        try {
+            $this->projectService->deleteProject($id);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Proyek berhasil dihapus',
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Proyek berhasil dihapus',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], 400);
+        }
     }
 }
