@@ -31,10 +31,10 @@ class ProjectService
     public function getProjectById($id)
     {
         try {
-            $project = Project::with(['tasks' => function ($query) {
+             $project = Project::with(['tasks' => function ($query) {
                 $query->select('title', 'description', 'status', 'due_date', 'project_id');
             }])->findOrFail($id);
-
+            
             return $project;
         } catch (ModelNotFoundException $e) {
             throw new Exception('Proyek tidak ditemukan.');
