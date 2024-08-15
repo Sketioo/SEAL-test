@@ -40,10 +40,10 @@ class StoreTaskRequest extends FormRequest
             'due_date.date_format' => 'Format tanggal jatuh tempo tidak valid.',
             'due_date.after' => 'Tanggal jatuh tempo harus setelah hari ini.',
             'project_id.required' => 'Proyek terkait wajib diisi.',
-            'project_id.uuid' => 'Proyek terkait harus berupa UUID.',
+            'project_id.uuid' => 'Proyek terkait harus berupa UUID yang valid.',
             'project_id.exists' => 'Proyek tidak ditemukan.',
             'user_id.required' => 'Pengguna terkait wajib diisi.',
-            'user_id.uuid' => 'Pengguna terkait harus berupa UUID.',
+            'user_id.uuid' => 'Pengguna terkait harus berupa UUID yang valid.',
             'user_id.exists' => 'Pengguna tidak ditemukan.',
         ];
     }
