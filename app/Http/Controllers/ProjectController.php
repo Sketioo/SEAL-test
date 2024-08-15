@@ -14,7 +14,6 @@ class ProjectController extends Controller
     public function __construct(ProjectService $projectService)
     {
         $this->projectService = $projectService;
-        $this->middleware('auth:sanctum');
     }
 
     public function index()
@@ -84,7 +83,12 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, $id)
     {
         try {
-            $this->projectService->updateProject($id, $request->validated());
+            $project = $this->projectService->getProjectById($id);
+            
+            //* authorization
+            $this->authorize('update', $project);
+
+            $this->projectService->updateProject($project, $request->validated());
 
             return response()->json([
                 'status' => 'success',
@@ -102,7 +106,12 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         try {
-            $this->projectService->deleteProject($id);
+            $project = $this->projectService->getProjectById($id);
+
+            //* authorization
+            $this->authorize('delete', $project);
+
+            $this->projectService->deleteProject($project);
 
             return response()->json([
                 'status' => 'success',

@@ -85,6 +85,9 @@ class TaskController extends Controller
     {
         try {
             $task = $this->taskService->getTaskById($id);
+
+            $this->authorize('update', $task);
+
             $this->taskService->updateTask($task, $request->validated());
 
             return response()->json([
@@ -104,6 +107,9 @@ class TaskController extends Controller
     {
         try {
             $task = $this->taskService->getTaskById($id);
+
+            $this->authorize('delete', $task);
+
             $this->taskService->deleteTask($task);
 
             return response()->json([

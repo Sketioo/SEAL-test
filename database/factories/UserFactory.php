@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -37,7 +39,6 @@ class UserFactory extends Factory
     public function defaultUser(): Factory
     {
         return $this->state([
-            'nip' => null,
             'name' => 'Martio Husein Samsu',
             'username' => 'martio27',
             'email' => 'martio@mail.com',
@@ -47,8 +48,12 @@ class UserFactory extends Factory
             'photo_profile' => 'profile.png',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
+        ])->afterCreating(function (User $user) {
+            $adminRole = Role::where('name', 'admin')->first();
+            if ($adminRole) {
+                $user->assignRole($adminRole);
+            }
+        });
     }
 
     /**

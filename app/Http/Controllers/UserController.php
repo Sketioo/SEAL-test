@@ -84,6 +84,9 @@ class UserController extends Controller
     {
         try {
             $user = $this->userService->getUserById($id);
+
+            $this->auhtorize('update', $user);
+
             $this->userService->updateUser($user, $request->validated());
 
             return response()->json([
@@ -103,6 +106,9 @@ class UserController extends Controller
     {
         try {
             $user = $this->userService->getUserById($id);
+
+            $this->authorize('delete', $user);
+
             $this->userService->deleteUser($user);
 
             return response()->json([
