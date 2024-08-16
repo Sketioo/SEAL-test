@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'position' => 'required|string|max:255',
             'type' => 'required|in:magang,pegawai',
             'phone' => 'required|string|max:255',
-            'photo_profile' => 'required|string|max:255',
+            'photo_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|string|min:8',
         ];
     }
@@ -48,6 +48,7 @@ class StoreUserRequest extends FormRequest
             'type.required' => 'Tipe pengguna wajib diisi.',
             'type.in' => 'Tipe pengguna harus salah satu dari: magang, pegawai.',
             'phone.required' => 'Nomor telepon wajib diisi.',
+            'photo_profile.image' => 'Foto profil harus berupa gambar.',
             'photo_profile.required' => 'Foto profil wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
             'password.min' => 'Kata sandi minimal harus :min karakter.',

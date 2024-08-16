@@ -1,10 +1,10 @@
 <?php
 namespace App\Services;
 
-use App\Models\Project;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Project;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProjectService
 {
@@ -31,7 +31,7 @@ class ProjectService
     public function getProjectById($id)
     {
         try {
-             $project = Project::with(['tasks' => function ($query) {
+            $project = Project::with(['tasks' => function ($query) {
                 $query->select('title', 'description', 'status', 'due_date', 'project_id');
             }])->findOrFail($id);
             
@@ -41,11 +41,11 @@ class ProjectService
         }
     }
 
-    public function updateProject($id, $data)
+    public function updateProject(Project $project, $data)
     {
         try {
-            $project = Project::findOrFail($id);
             $project->update($data);
+
             return $project;
         } catch (ModelNotFoundException $e) {
             throw new Exception('Proyek tidak ditemukan.');
@@ -54,10 +54,9 @@ class ProjectService
         }
     }
 
-    public function deleteProject($id)
+    public function deleteProject(Project $project)
     {
         try {
-            $project = Project::findOrFail($id);
             $project->delete();
         } catch (ModelNotFoundException $e) {
             throw new Exception('Proyek tidak ditemukan.');

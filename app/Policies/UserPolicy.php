@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 
 class UserPolicy
 {
@@ -36,7 +36,14 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->id === $model->id;
+        Log::info('Checking update permission', [
+            'user_id' => $user->id,
+            'model_id' => $model->id,
+            'is_admin' => $user->hasRole('admin'),
+            'permissions' => $user->getAllPermissions()->pluck('name'),
+        ]);
+        return $user->hasRole('admin') || $user->id === $model->id;
+        // return true;
     }
 
     /**
@@ -44,7 +51,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->id === $model->id;
+        return $user->hasRole('admin') || $user->id === $model->id;
     }
 
     /**

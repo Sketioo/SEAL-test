@@ -21,17 +21,17 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('user');
+        // $userId = $this->route('user');
 
         return [
-            'nip' => 'nullable|unique:users,nip,' . $userId,
+            'nip' => 'nullable|unique:users,nip,',
             'name' => 'sometimes|required|string|max:255',
-            'username' => 'sometimes|required|string|max:255|unique:users,username,' . $userId,
-            'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $userId,
+            'username' => 'sometimes|required|string|max:255|unique:users,username,',
+            'email' => 'sometimes|required|string|email|max:255|unique:users,email,',
             'position' => 'sometimes|required|string|max:255',
             'type' => 'sometimes|required|in:magang,pegawai',
             'phone' => 'sometimes|required|string|max:255',
-            'photo_profile' => 'sometimes|required|string|max:255',
+            'photo_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'sometimes|required|string|min:8',
         ];
     }
@@ -51,6 +51,7 @@ class UpdateUserRequest extends FormRequest
             'type.in' => 'Tipe pengguna harus salah satu dari: magang, pegawai.',
             'phone.required' => 'Nomor telepon wajib diisi.',
             'photo_profile.required' => 'Foto profil wajib diisi.',
+            'photo_profile.image' => 'Foto profil harus berupa gambar.',
             'password.required' => 'Kata sandi wajib diisi.',
             'password.min' => 'Kata sandi minimal harus :min karakter.',
         ];

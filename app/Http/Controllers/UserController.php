@@ -85,7 +85,7 @@ class UserController extends Controller
         try {
             $user = $this->userService->getUserById($id);
 
-            $this->auhtorize('update', $user);
+            $this->authorize('update', $user);
 
             $this->userService->updateUser($user, $request->validated());
 
@@ -123,4 +123,5 @@ class UserController extends Controller
             ], 400);
         }
     }
+    
 }

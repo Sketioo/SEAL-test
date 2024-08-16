@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Project;
 use App\Services\ProjectService;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
@@ -50,7 +52,6 @@ class ProjectController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Proyek berhasil dibuat',
-                'data' => $project,
             ], 201);
         } catch (Exception $e) {
             return response()->json([
@@ -80,13 +81,13 @@ class ProjectController extends Controller
         }
     }
 
-    public function update(UpdateProjectRequest $request, $id)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        try {
-            $project = $this->projectService->getProjectById($id);
-            
+        try {            
             //* authorization
             $this->authorize('update', $project);
+
+            Log::info('Update Project Request Data:', ['data' => $request->validated()]);
 
             $this->projectService->updateProject($project, $request->validated());
 
@@ -103,11 +104,9 @@ class ProjectController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Project $project)
     {
         try {
-            $project = $this->projectService->getProjectById($id);
-
             //* authorization
             $this->authorize('delete', $project);
 
