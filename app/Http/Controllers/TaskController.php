@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Task;
 use App\Services\TaskService;
-use App\Http\Requests\StoreTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\TaskRequests\StoreTaskRequest;
+use App\Http\Requests\TaskRequests\UpdateTaskRequest;
 
 class TaskController extends Controller
 {

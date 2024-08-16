@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Services\UserService;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserRequests\StoreUserRequest;
+use App\Http\Requests\UserRequests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -14,7 +14,6 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth:sanctum');
     }
 
     public function index()

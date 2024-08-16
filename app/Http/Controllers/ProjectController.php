@@ -6,8 +6,8 @@ use Exception;
 use App\Models\Project;
 use App\Services\ProjectService;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\ProjectRequests\StoreProjectRequest;
+use App\Http\Requests\ProjectRequests\UpdateProjectRequest;
 
 class ProjectController extends Controller
 {

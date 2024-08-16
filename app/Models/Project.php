@@ -16,6 +16,16 @@ class Project extends Model
         'description',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function tasks() {
         return $this->hasMany(Task::class, 'project_id');
     }
