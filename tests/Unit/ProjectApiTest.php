@@ -20,11 +20,11 @@ class ProjectApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_project()
+    public function test_can_create_a_project()
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user, 'sanctum')->postJson('/api/projects', [
+        $response = $this->actingAs($user, 'sanctum')->postJson('/projects', [
             'name' => 'New Project',
             'description' => 'Project Description',
         ]);
@@ -38,12 +38,12 @@ class ProjectApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_read_a_project()
+    public function test_can_read_a_project()
     {
         $user = User::factory()->create();
         $project = Project::factory()->create();
 
-        $response = $this->actingAs($user, 'sanctum')->getJson("/api/projects/{$project->id}");
+        $response = $this->actingAs($user, 'sanctum')->getJson("/projects/{$project->id}");
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -54,12 +54,12 @@ class ProjectApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_project()
+    public function test_can_update_a_project()
     {
         $user = User::factory()->create();
         $project = Project::factory()->create();
 
-        $response = $this->actingAs($user, 'sanctum')->putJson("/api/projects/{$project->id}", [
+        $response = $this->actingAs($user, 'sanctum')->putJson("/projects/{$project->id}", [
             'name' => 'Updated Project Name',
             'description' => 'Updated Description',
         ]);
@@ -72,12 +72,12 @@ class ProjectApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_project()
+    public function test_can_delete_a_project()
     {
         $user = User::factory()->create();
         $project = Project::factory()->create();
 
-        $response = $this->actingAs($user, 'sanctum')->deleteJson("/api/projects/{$project->id}");
+        $response = $this->actingAs($user, 'sanctum')->deleteJson("/projects/{$project->id}");
 
         $response->assertStatus(200)
             ->assertJson([

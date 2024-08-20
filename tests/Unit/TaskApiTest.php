@@ -21,7 +21,7 @@ class TaskApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_task()
+    public function test_can_create_a_task()
     {
         $user = User::factory()->create();
         $project = Project::factory()->create();
@@ -43,7 +43,7 @@ class TaskApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_read_a_task()
+    public function test_can_read_a_task()
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();
@@ -59,7 +59,7 @@ class TaskApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_task()
+    public function test_can_update_a_task()
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();
@@ -79,7 +79,7 @@ class TaskApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_task()
+    public function test_can_delete_a_task()
     {
         $user = User::factory()->create();
         $task = Task::factory()->create();

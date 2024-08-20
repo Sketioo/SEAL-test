@@ -20,7 +20,7 @@ class UserApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_login_a_user()
+    public function test_can_login_a_user()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password123'),
@@ -40,7 +40,7 @@ class UserApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_logout_a_user()
+    public function test_can_logout_a_user()
     {
         $user = User::factory()->create([
             'password' => Hash::make('password123'),
@@ -64,7 +64,7 @@ class UserApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_user()
+    public function test_can_create_a_user()
     {
         $response = $this->postJson('/api/users', [
             'name' => 'John Doe',
@@ -82,7 +82,7 @@ class UserApiTest extends TestCase
     }
 
 /** @test */
-    public function it_can_read_a_user()
+    public function test_can_read_a_user()
     {
         $user = User::factory()->create();
 
@@ -97,7 +97,7 @@ class UserApiTest extends TestCase
     }
 
 /** @test */
-    public function it_can_update_a_user()
+    public function test_can_update_a_user()
     {
         $user = User::factory()->create();
 
@@ -114,7 +114,7 @@ class UserApiTest extends TestCase
     }
 
 /** @test */
-    public function it_can_delete_a_user()
+    public function test_can_delete_a_user()
     {
         $user = User::factory()->create();
 
